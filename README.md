@@ -5,5 +5,6 @@
 
 ###In the future, we should:
 1. Add support and "link" between Toggl "workspace" and Jira "project"
-2. Encrypt local data saved
-3. Put some UI :)
+2. Handle closed issue status on Jira
+3. Encrypt local data saved
+4. Put some UI :)
