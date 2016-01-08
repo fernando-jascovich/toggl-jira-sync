@@ -21,6 +21,7 @@ class Settings:
 
     toggl_api_token = False
     toggl_workspace = False
+    jira_endpoint = False
     jira_user = False
     jira_pass = False
 
@@ -33,6 +34,10 @@ class Settings:
         try:
             self.toggl_workspace = self._config.get(
                     Settings.TOGGL_SECTION, "toggl_workspace")
+        except: pass
+        try:
+            self.jira_endpoint = self._config.get(
+                    Settings.JIRA_SECTION, "jira_endpoint")
         except: pass
         try:
             self.jira_user = self._config.get(
@@ -51,6 +56,10 @@ class Settings:
         self.toggl_workspace = workspace
         self.update_config("toggl_workspace", workspace)
 
+    def set_jira_endpoint(self, endpoint):
+        self.jira_endpoint = endpoint
+        self.update_config("jira_endpoint", endpoint)
+
     def set_jira_user(self, user):
         self.jira_user = user
         self.update_config("jira_user", user)
@@ -63,6 +72,7 @@ class Settings:
         allowed = [
             "toggl_api_token", 
             "toggl_workspace", 
+            "jira_endpoint",
             "jira_user", 
             "jira_pass"
         ]

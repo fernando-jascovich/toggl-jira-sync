@@ -45,11 +45,12 @@ class Toggl:
 
 class Jira:
 
-    _endpoint = "https://jira.gfrmedia.com/rest/api/latest/issue/%s/worklog"
+    _endpoint = "https://%s/rest/api/latest/issue/%s/worklog"
 
-    def __init__(self, user, password, toggl_entries):
+    def __init__(self, user, password, host, toggl_entries):
         self.user = user
         self.password = password
+        self.host = host
 
         for e in toggl_entries:
             i = e["start"].rindex(":")
@@ -74,9 +75,9 @@ class Jira:
                 print(Lang.INFO_UPDATING_LOG % key)
                 self.add_worklog(key, start, spent)
 
-    def get_worklog(self, key):
+    def get_worklog(self, key):       
         r = requests.get(
-                self._endpoint % key, 
+                self._endpoint % (self.host, key), 
                 auth = (self.user, self.password)
             )
         if r.status_code != requests.codes.ok:
@@ -91,7 +92,7 @@ class Jira:
             "timeSpentSeconds": seconds
         }
         r = requests.post(
-                self._endpoint % key,
+                self._endpoint % (self.host, key),
                 auth = (self.user, self.password),
                 data = json.dumps(p),
                 headers = {

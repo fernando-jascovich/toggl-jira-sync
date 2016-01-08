@@ -12,6 +12,7 @@ class Lang:
 
     PROMPT_TOGGL_API_KEY = "Toggl api key: "
     PROMPT_TOGGL_WORKSPACE = "Toggl workspace id: "
+    PROMPT_JIRA_HOST = "Jira hostname (only name, without scheme): "
     PROMPT_JIRA_USER = "Jira username: "
     PROMPT_JIRA_PASS = "Jira password: "
     PROMPT_ST_DATE = "Start date (MM/DD/YYYY): "

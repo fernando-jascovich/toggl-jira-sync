@@ -50,7 +50,12 @@ def main(argv):
         st_date, 
         end_date
         )
-    Jira(settings.jira_user, settings.jira_pass, t.entries)
+    Jira(
+        settings.jira_user, 
+        settings.jira_pass, 
+        settings.jira_endpoint,
+        t.entries
+        )
 
 def parse_date(input):
     try:
@@ -66,6 +71,9 @@ def handle_settings():
 
     while not s.toggl_workspace:
         s.set_toggl_workspace(prompt_user(Lang.PROMPT_TOGGL_WORKSPACE))
+
+    while not s.jira_endpoint:
+        s.set_jira_endpoint(prompt_user(Lang.PROMPT_JIRA_HOST))
 
     while not s.jira_user:
         s.set_jira_user(prompt_user(Lang.PROMPT_JIRA_USER))
