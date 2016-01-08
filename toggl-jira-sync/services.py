@@ -25,7 +25,7 @@ class Toggl:
         q1 = self.query()
         self.entries.extend(q1['data'])
         while len(self.entries) < q1['total_count']:
-            self.params.page += 1
+            self.params["page"] += 1
             q2 = self.query()
             self.entries.extend(q2['data'])
 
