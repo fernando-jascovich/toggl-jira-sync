@@ -2,7 +2,7 @@ from distutils.core import setup
 setup(
   name = 'toggl-jira-sync',
   packages = ['toggl-jira-sync'], 
-  version = '0.1',
+  version = '0.2',
   description = 'Sync from Toggl to Jira',
   author = 'Fernando Jascovich',
   author_email = 'fernando.ej@gmail.com',
