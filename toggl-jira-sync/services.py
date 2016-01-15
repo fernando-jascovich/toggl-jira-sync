@@ -46,6 +46,7 @@ class Toggl:
 class Jira:
 
     _endpoint = "https://%s/rest/api/latest/issue/%s/worklog"
+    _endpoint_t = "https://%s/rest/api/2/issue/%s/transitions"
 
     def __init__(self, user, password, host, toggl_entries):
         self.user = user
@@ -86,20 +87,64 @@ class Jira:
         return r.json()
 
     def add_worklog(self, key, start, seconds):
+        h = {
+            'Content-Type':'application/json',
+            'Accept':'*/*'
+        }
         p = {
             "comment": "",
             "started": start.__format__("%Y-%m-%dT%H:%M:%S.000%z"),
             "timeSpentSeconds": seconds
         }
         r = requests.post(
+            self._endpoint % (self.host, key),
+            auth = (self.user, self.password),
+            data = json.dumps(p),
+            headers = h
+        )
+        if r.status_code == 400:
+            print(Lang.INFO_JIRA_CLOSED_ISSUE)
+            r2 = requests.get(
+                self._endpoint_t % (self.host, key),
+                auth = (self.user, self.password),
+                headers = h
+            )
+            transitions = r2.json()["transitions"]
+            transition_id = -1
+            for t in transitions:
+                if "reopen" in t["name"].lower():
+                    transition_id = int(t["id"])
+                    break
+
+            if transition_id < 0:
+                print(Lang.ERROR_JIRA_NO_TRANSITION % key)
+                return False
+
+            p2 = {
+                "update": {
+                    "comment": [{"add":{"body":"Reopen for log work."}}]
+                },
+                "transition": { "id": transition_id }
+            }
+            r3 = requests.post(
+                self._endpoint_t % (self.host, key),
+                auth = (self.user, self.password),
+                data = json.dumps(p2),
+                headers = h
+            )
+            if r3.status_code != 204:
+                print("Error: %d" % r.status_code)
+                print(r.text)
+                return False
+
+            r = requests.post(
                 self._endpoint % (self.host, key),
                 auth = (self.user, self.password),
                 data = json.dumps(p),
-                headers = {
-                    'Content-Type':'application/json',
-                    'Accept':'*/*'
-                    }
-                )
+                headers = h
+            )
+
+
         if r.status_code > 399:
             print("Error: %d" % r.status_code)
             print(r.text)

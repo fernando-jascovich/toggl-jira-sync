@@ -9,6 +9,7 @@ class Lang:
     ERROR_DATE_INPUT = "Wrong date format, try again please!"
     ERROR_DATE_END_GT = "End date should be greater or equal to start date."
     ERROR_DATE_ST_FUTURE = "Planning to read the future?"
+    ERROR_JIRA_NO_TRANSITION = "There's no transition to reopen issue, can't do work log on %s"
 
     PROMPT_TOGGL_API_KEY = "Toggl api key: "
     PROMPT_TOGGL_WORKSPACE = "Toggl workspace id: "
@@ -22,4 +23,6 @@ class Lang:
     INFO_CHECK_EXISTING_LOGS = "Jira: checking existing worklogs for %s..."
     INFO_UPDATING_LOG = "Jira: updating %s..."
     INFO_UPDATED_LOG = "Jira: %s updated successfully"
+    INFO_JIRA_CLOSED_ISSUE = "Issue seems closed, trying to reopen..."
+
 
