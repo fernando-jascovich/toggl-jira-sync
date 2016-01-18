@@ -87,6 +87,10 @@ class Jira:
         return r.json()
 
     def add_worklog(self, key, start, seconds):
+        if(seconds < 60):
+            print(Lang.WARN_JIRA_MIN % key)
+            return False
+
         h = {
             'Content-Type':'application/json',
             'Accept':'*/*'
