@@ -110,13 +110,16 @@ class Jira:
                 headers = h
             )
             transitions = r2.json()["transitions"]
-            transition_id = -1
+            reopen_id = -1
+            close_id = -1
             for t in transitions:
-                if "reopen" in t["name"].lower():
-                    transition_id = int(t["id"])
-                    break
+                name = t["name"].lower()
+                if "reopen" in name:
+                    reopen_id = int(t["id"])
+                elif "close" in name:
+                    close_id = int(t["id"])
 
-            if transition_id < 0:
+            if reopen_id < 0:
                 print(Lang.ERROR_JIRA_NO_TRANSITION % key)
                 return False
 
@@ -124,7 +127,7 @@ class Jira:
                 "update": {
                     "comment": [{"add":{"body":"Reopen for log work."}}]
                 },
-                "transition": { "id": transition_id }
+                "transition": { "id": reopen_id }
             }
             r3 = requests.post(
                 self._endpoint_t % (self.host, key),
@@ -144,6 +147,21 @@ class Jira:
                 headers = h
             )
 
+            if close_id < 0:
+                print(Lang.WARN_JIRA_CLOSE % key)
+            else:
+                p3 = {
+                    "update": { 
+                        "comment":[{"add":{"body":"Closing after log work."}}]
+                    },
+                    "transition": { "id": close_id }
+                }
+                r4 = requests.post(
+                    self._endpoint_t % (self.host, key),
+                    auth = (self.user, self.password),
+                    data = json.dumps(p3),
+                    headers = h
+                )
 
         if r.status_code > 399:
             print("Error: %d" % r.status_code)

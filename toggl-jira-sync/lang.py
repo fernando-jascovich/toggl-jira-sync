@@ -25,4 +25,4 @@ class Lang:
     INFO_UPDATED_LOG = "Jira: %s updated successfully"
     INFO_JIRA_CLOSED_ISSUE = "Issue seems closed, trying to reopen..."
 
-
+    WARN_JIRA_CLOSE = "Warning: cannot close issue %s, there's no available transition to close"
