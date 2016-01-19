@@ -1,8 +1,10 @@
 # toggl-jira-sync
 
-## Tool for syncing from Toggl to Jira based on the following asert:
+## Tool for syncing from Toggl to Jira based on the following aserts:
 *The "description" field on Toggl are equal to "key" of the ticket in Jira.*
+
 *There's one transition which contains "reopen" as part of the name*
+
 *There's one transition which contains "close" as part of the name*
 
 ###In the future, we should:
