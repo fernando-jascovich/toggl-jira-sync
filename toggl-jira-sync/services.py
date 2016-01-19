@@ -56,7 +56,11 @@ class Jira:
         for e in toggl_entries:
             i = e["start"].rindex(":")
             s = e["start"][:i] + e["start"][i + 1:]
-            start = datetime.strptime(s, "%Y-%m-%dT%H:%M:%S%z")
+            try:
+                start = datetime.strptime(s, "%Y-%m-%dT%H:%M:%S%z")
+            except:
+                from dateutil.parser import parse
+                start = parse(s)
 
             spent = int(e["dur"] / 1000)
             key = e["description"]
