@@ -7,7 +7,7 @@ setup(
   author = 'Fernando Jascovich',
   author_email = 'fernando.ej@gmail.com',
   url = 'https://github.com/fernando-jascovich/toggl-jira-sync',
-  download_url = 'https://github.com/fernando-jascovich/toggl-jira-sync/tarball/0.1', 
+  download_url = 'https://github.com/fernando-jascovich/toggl-jira-sync/tarball/0.3', 
   keywords = ['toggl', 'jira', 'sync'], 
   classifiers = [],
 )
